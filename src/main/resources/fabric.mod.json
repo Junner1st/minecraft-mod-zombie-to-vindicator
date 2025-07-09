@@ -1,0 +1,27 @@
+{
+	"schemaVersion": 1,
+	"id": "modid",
+	"version": "${version}",
+	"name": "Zombie to Vindicator",
+	"description": "Replace Zombie to Vindicator, Skeleton to Pillager.",
+	"authors": [
+		"JunnerX"
+	],
+	"contact": {
+		"homepage": "https://github.com/Junner1st/",
+		"sources": "https://github.com/Junner1st/"
+	},
+	"license": "GPL-3",
+	"icon": "assets/modid/icon.png",
+	"environment": "server",
+	"entrypoints": {
+		"main": [
+			"replaceentities.ReplaceLogic"
+		]
+	},
+	"depends": {
+		"minecraft": "1.21.5",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

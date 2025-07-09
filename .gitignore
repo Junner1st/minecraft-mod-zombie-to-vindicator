@@ -1,0 +1,77 @@
+# .gitignore Template References:
+## https://gist.github.com/JonathanGawrych/32afe529fd519a7312df#file-gitignore-L3
+## https://github.com/FabricMC/fabric-example-mod/blob/1.21/.gitignore
+
+# gradle
+.gradle/
+build/
+out/
+classes/
+
+# eclipse
+*.launch
+
+
+# idea
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# vscode
+.settings/
+.vscode/
+bin/
+.classpath
+.project
+
+# macos
+*.DS_Store
+
+# fabric
+run/
+
+# java
+hs_err_*.log
+replay_*.log
+*.hprof
+*.jfr
+
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/
+
+# Inclusions
+!lib/**
+
+# Compiled Files
+*.class
+bin/
+build/
+/bin1/
+java/build/**
