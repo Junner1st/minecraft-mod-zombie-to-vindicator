@@ -24,10 +24,19 @@ public class ReplaceLogic implements ModInitializer {
     @Override
     public void onInitialize() {
         ServerEntityEvents.ENTITY_LOAD.register((Entity entity, ServerWorld world) -> {
-            if (entity instanceof ZombieEntity) {
-                replaceEntity(world, (LivingEntity)entity, EntityType.VINDICATOR);
-            } else if (entity instanceof SkeletonEntity) {
-                replaceEntity(world, (LivingEntity)entity, EntityType.PILLAGER);
+            // get chunck coordinates
+            var chunckPos = entity.getChunkPos();
+            var chunkX = chunckPos.x;
+            var chunkZ = chunckPos.z;
+            var chunkY = entity.getBlockPos().getY() >> 4; 
+
+            // if chunk position x+y+z is odd, replace the entity
+            if (((chunkX + chunkZ + chunkY) & 1) == 1) {
+                if (entity instanceof ZombieEntity) {
+                    replaceEntity(world, (LivingEntity)entity, EntityType.VINDICATOR);
+                } else if (entity instanceof SkeletonEntity) {
+                    replaceEntity(world, (LivingEntity)entity, EntityType.PILLAGER);
+                }
             }
         });
     }
