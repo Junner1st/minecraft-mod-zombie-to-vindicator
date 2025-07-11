@@ -10,28 +10,25 @@ import net.minecraft.entity.mob.SkeletonEntity;
 import net.minecraft.entity.mob.VindicatorEntity;
 import net.minecraft.entity.mob.PillagerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.world.LocalDifficulty;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.entity.EquipmentSlot;
+
+import equip.EquipLogic;
 
 public class ReplaceLogic implements ModInitializer {
     @Override
     public void onInitialize() {
         ServerEntityEvents.ENTITY_LOAD.register((Entity entity, ServerWorld world) -> {
-            // get chunck coordinates
-            var chunckPos = entity.getChunkPos();
-            var chunkX = chunckPos.x;
-            var chunkZ = chunckPos.z;
-            var chunkY = entity.getBlockPos().getY() >> 4; 
-
+            // get chunck coordinates of the entity
+            var chunkPos = entity.getChunkPos();
+            int chunkX = chunkPos.x;
+            int chunkZ = chunkPos.z;
+            int chunkY = entity.getBlockPos().getY() >> 4; // 相當於 / 16
+            
             // if chunk position x+y+z is odd, replace the entity
-            if (((chunkX + chunkZ + chunkY) & 1) == 1) {
+            if ((chunkX + chunkY + chunkZ) % 2 == 1) {
                 if (entity instanceof ZombieEntity) {
                     replaceEntity(world, (LivingEntity)entity, EntityType.VINDICATOR);
                 } else if (entity instanceof SkeletonEntity) {
@@ -64,14 +61,18 @@ public class ReplaceLogic implements ModInitializer {
     }
     
     private static void equipVindicator(VindicatorEntity vindicator, ServerWorld world) {
-        ItemStack axe = new ItemStack(Items.IRON_AXE);
+        ItemStack axe = EquipLogic.generateAxe(world, world.getRandom());
         vindicator.equipStack(EquipmentSlot.MAINHAND, axe);
-        vindicator.setEquipmentDropChance(EquipmentSlot.MAINHAND, 0.05f);
+        
+        float dropChance = EquipLogic.getAxeDropChance(axe);
+        vindicator.setEquipmentDropChance(EquipmentSlot.MAINHAND, dropChance);
     }
     
     private static void equipPillager(PillagerEntity pillager, ServerWorld world) {
-        ItemStack crossbow = new ItemStack(Items.CROSSBOW);
+        ItemStack crossbow = EquipLogic.generateCrossbow(world, world.getRandom());
         pillager.equipStack(EquipmentSlot.MAINHAND, crossbow);
-        pillager.setEquipmentDropChance(EquipmentSlot.MAINHAND, 0.05f);
+        
+        float dropChance = 0.3f;
+        pillager.setEquipmentDropChance(EquipmentSlot.MAINHAND, dropChance);
     }
 }
